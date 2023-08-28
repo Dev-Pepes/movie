@@ -1,13 +1,9 @@
 spring:
   application:
-    # core, domain, infrastructure
-    name: core
-  profiles:
-    active: local
-  #Label을 사용하고자 하였으나, Directory별 분류를 하고 applicationName별로 분류 했다보니 불필요해짐.
-#  cloud:
-#    config:
-#      label: movie
+    # core, domain, infrastructure, 전부 추가해야 한번에 가져옴!
+    #java -jar -Dspring.profiles.active=dev Api-0.0.1-SNAPSHOT.jar 이런식으로 activate를 제공하자
+    name: application,core,domain,infrastructure
+
   config:
     import: optional:configserver:http://localhost:8888/
 
