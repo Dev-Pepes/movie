@@ -2,6 +2,9 @@ plugins {
     id 'java'
 }
 
+//Plain생성을 막기 위함
+jar.enabled=false
+
 group = 'movie.server'
 version = '0.0.1-SNAPSHOT'
 
@@ -23,4 +26,9 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+bootJar{
+    archivesBaseName = 'App'
+    archiveFileName = 'app.jar'
 }
