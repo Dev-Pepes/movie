@@ -6,14 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/message-test")
 @RequiredArgsConstructor
+@RequestMapping("/message-test")
 public class MessageTestController {
+    
     private final MessageTest messageTest;
-/*
-    public MessageTestController(MessageTest messageTest) {
-        this.messageTest = messageTest;
-    }*/
 
     @GetMapping
     public String LocalSetting() {

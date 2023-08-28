@@ -10,11 +10,12 @@ import org.jetbrains.annotations.NotNull;
 @Table(name = "tbl_movie")
 @NoArgsConstructor
 public class Movie {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  
+
   @NotNull
   private String movieName;
+  
 }
