@@ -5,7 +5,7 @@ plugins {
 //Plain생성을 막기 위함
 jar.enabled=false
 
-group = 'movie.server'
+group = 'playlist.server'
 version = '0.0.1-SNAPSHOT'
 
 repositories {
