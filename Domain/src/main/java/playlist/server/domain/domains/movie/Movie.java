@@ -1,4 +1,4 @@
-package movie.server.domain.domains.movie;
+package playlist.server.domain.domains.movie;
 
 import jakarta.persistence.*;
 import lombok.Getter;

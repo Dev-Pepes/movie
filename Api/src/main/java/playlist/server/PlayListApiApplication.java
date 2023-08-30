@@ -1,4 +1,4 @@
-package movie.server;
+package playlist.server;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,16 +12,16 @@ import org.springframework.core.env.Environment;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-@EntityScan("movie.server.domain")
+@EntityScan("playlist.server.domain")
 @RequiredArgsConstructor
 @SpringBootApplication
 @Slf4j
-public class MovieApiApplication implements ApplicationListener<ApplicationReadyEvent> {
+public class PlayListApiApplication implements ApplicationListener<ApplicationReadyEvent> {
   
   private final Environment environment;
   
   public static void main(String[] args) {
-    SpringApplication.run(MovieApiApplication.class, args);
+    SpringApplication.run(PlayListApiApplication.class, args);
     System.out.println("Server Processed : " + LocalDateTime.now());
   }
   

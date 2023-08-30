@@ -1,4 +1,4 @@
-package movie.server.annotation;
+package playlist.server.annotation;
 
 
 import org.springframework.core.annotation.AliasFor;
@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface Mapper {
+public @interface Adaptor {
     @AliasFor(annotation = Component.class)
     String value() default "";
 }

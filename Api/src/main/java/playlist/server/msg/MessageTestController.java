@@ -1,9 +1,9 @@
-package movie.server.msg;
+package playlist.server.msg;
 
 import lombok.RequiredArgsConstructor;
-import movie.server.CoreMessageTest;
-import movie.server.DomainMessageTest;
-import movie.server.InfraMessageTest;
+import playlist.server.CoreMessageTest;
+import playlist.server.DomainMessageTest;
+import playlist.server.InfraMessageTest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
