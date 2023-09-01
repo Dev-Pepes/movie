@@ -29,6 +29,6 @@ test {
 }
 
 bootJar{
-    archivesBaseName = 'App'
+    archivesBaseName = 'app'
     archiveFileName = 'app.jar'
 }
