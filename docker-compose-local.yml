@@ -59,7 +59,7 @@ services:
       - redis
       - mysql
     environment:
-      - ACTIVE_PROFILES=local
+      - ACTIVE_PROFILES=local-compose
 networks:
   backend:
     driver: bridge

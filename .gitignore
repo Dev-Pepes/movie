@@ -20,7 +20,8 @@ bin/
 
 ### Docker MYSQL###
 ./mysql/data/**
-
+mysql/data/**
+mysql/data/*
 ### IntelliJ IDEA ###
 .idea
 *.iws
