@@ -1,11 +1,13 @@
+server:
+  port: 8080
 spring:
   application:
     # core, domain, infrastructure, 전부 추가해야 한번에 가져옴!
     #java -jar -Dspring.profiles.active=dev Api-0.0.1-SNAPSHOT.jar 이런식으로 activate를 제공하자
     name: application,core,domain,infrastructure
-
   config:
-    import: optional:configserver:http://localhost:8888/
+    #import: optional:configserver:http://localhost:8888/
+    import: optional:configserver:http://config.10duck.kr/
 
 management:
   endpoints:

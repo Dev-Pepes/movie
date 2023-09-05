@@ -1,7 +1,9 @@
-FROM openjdk:17-alpine
-ARG JAR_FILE=./Api/build/libs/app.jar
-COPY ${JAR_FILE} app.jar
+FROM  --platform=linux/amd64 openjdk:17-alpine
+WORKDIR /app
 
-ARG PROFILE=dev
-ENV PROFILE=dev
-ENTRYPOINT ["java","-Dspring.profiles.active=${PROFILE}", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ARG JAR_FILE=Api/build/libs/app.jar
+ARG ACTIVE_PROFILES=local
+COPY ${JAR_FILE} /app
+USER root
+EXPOSE 8080
+ENTRYPOINT ["java","-Dspring.profiles.active=${ACTIVE_PROFILES}","-Djava.security.egd=file:/dev/./urandom","-jar","app.jar"]
