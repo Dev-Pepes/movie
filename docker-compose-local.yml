@@ -22,6 +22,8 @@ services:
     labels:
       - "name=redis"
       - "mode=standalone"
+    volumes:
+      - ./redis/data/:/data
   mysql:
     image: mysql:8.1.0
     container_name: local-mysql
@@ -48,7 +50,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: playlist_be
+    container_name: app
     restart: always
     networks:
       backend:
