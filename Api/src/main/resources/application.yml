@@ -17,3 +17,12 @@ management:
     web:
       exposure:
         include: "*"
+
+tenduck:
+  cors-domain: [
+    http://localhost:3000,
+    http://dev.playlist.10duck.kr,
+    http://playlist.10duck.kr,
+    https://dev.playlist.10duck.kr,
+    https://playlist.10duck.kr
+  ]
