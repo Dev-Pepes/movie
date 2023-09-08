@@ -22,7 +22,7 @@ public class PlayListApiApplication implements ApplicationListener<ApplicationRe
   
   public static void main(String[] args) {
     SpringApplication.run(PlayListApiApplication.class, args);
-    System.out.println("Server Processed : " + LocalDateTime.now());
+    log.info("Server Processed : " + LocalDateTime.now());
   }
   
   @Override
