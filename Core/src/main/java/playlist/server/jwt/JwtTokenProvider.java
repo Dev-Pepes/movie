@@ -17,7 +17,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-import static playlist.server.consts.StaticVal.*;
+import static playlist.server.consts.StaticVal.ACCESS_TOKEN;
+import static playlist.server.consts.StaticVal.REFRESH_TOKEN;
+import static playlist.server.consts.StaticVal.TOKEN_TYPE;
 
 @RequiredArgsConstructor
 @Component
