@@ -47,5 +47,6 @@ tenduck:
 
       # Test Mapping
       /hello,
-      /message-test/**
+      /message-test/**,
+      /jwt
     ]

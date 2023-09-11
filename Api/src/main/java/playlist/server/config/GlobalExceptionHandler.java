@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
   protected ResponseEntity<ErrorResponse> internalServerExceptionHandle(
           Exception e, HttpServletRequest request) throws Exception {
     log.error(String.valueOf(e));
-    GlobalException internalServerError = GlobalException.INTERNAL_SERVER_ERROR;
+    GlobalException internalServerError = GlobalException.INTERNAL_SERVER_ERRORS;
     ErrorResponse errorResponse = new ErrorResponse(internalServerError.getErrorDetail());
     return ResponseEntity.status(HttpStatus.valueOf(internalServerError.getStatusCode())).body(errorResponse);
   }
