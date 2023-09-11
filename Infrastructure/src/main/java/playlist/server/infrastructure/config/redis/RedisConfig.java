@@ -26,8 +26,6 @@ public class RedisConfig {
   
   @Bean
   public RedisConnectionFactory redisConnectionFactory() {
-    log.error("fucking Bong Redis : {}" , redisProperties.toString());
-    
     RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort());
     
     LettuceClientConfiguration clientConfiguration =
