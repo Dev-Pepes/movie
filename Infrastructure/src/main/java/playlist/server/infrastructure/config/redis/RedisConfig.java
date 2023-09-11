@@ -1,6 +1,7 @@
 package playlist.server.infrastructure.config.redis;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -9,25 +10,25 @@ import org.springframework.data.redis.connection.lettuce.LettuceClientConfigurat
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisKeyValueAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import playlist.server.properties.RedisProperties;
 
 import java.time.Duration;
 
+@Slf4j
 @EnableRedisRepositories(
         basePackages = "playlist.server",
         enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP
 )
 @Configuration
+@RequiredArgsConstructor
 public class RedisConfig {
-  
-  @Value("10duck")
-  private String host;
-  
-  @Value("6379")
-  private int port;
+  private final RedisProperties redisProperties;
   
   @Bean
   public RedisConnectionFactory redisConnectionFactory() {
-    RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(host, port);
+    log.error("fucking Bong Redis : {}" , redisProperties.toString());
+    
+    RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort());
     
     LettuceClientConfiguration clientConfiguration =
             LettuceClientConfiguration.builder()
