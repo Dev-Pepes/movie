@@ -1,12 +1,13 @@
 package playlist.server.msg;
 
+
 import lombok.RequiredArgsConstructor;
-import playlist.server.CoreMessageTest;
-import playlist.server.DomainMessageTest;
-import playlist.server.InfraMessageTest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import playlist.server.CoreMessageTest;
+import playlist.server.DomainMessageTest;
+import playlist.server.InfraMessageTest;
 
 @RestController
 @RequestMapping("/message-test")
@@ -21,17 +22,19 @@ public class MessageTestController {
     public String apiSetting() {
         return messageTest.toString();
     }
+
     @GetMapping("/infra")
     public String infraSetting() {
         return infraMessageTest.toString();
     }
+
     @GetMapping("/core")
     public String coreSetting() {
         return coreMessageTest.toString();
     }
+
     @GetMapping("/domain")
     public String domainSetting() {
         return domainMessageTest.toString();
     }
-
 }

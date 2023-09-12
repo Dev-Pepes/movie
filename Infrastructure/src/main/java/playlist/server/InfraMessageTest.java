@@ -1,5 +1,6 @@
 package playlist.server;
 
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
@@ -12,8 +13,6 @@ public class InfraMessageTest {
 
     @Override
     public String toString() {
-        return "Infra MessageTest{" +
-                "message='" + message + '\'' +
-                '}';
+        return "Infra MessageTest{" + "message='" + message + '\'' + '}';
     }
 }

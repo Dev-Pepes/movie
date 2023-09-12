@@ -1,5 +1,7 @@
 package playlist.server.config.security;
 
+
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,21 +17,19 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import playlist.server.properties.TenduckProperties;
 
-import java.util.Arrays;
-
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig  {
-//    private final FilterConfig filterConfig;
+public class SecurityConfig {
+    //    private final FilterConfig filterConfig;
     private final TenduckProperties tenduckProperties;
 
     @Value("${swagger.user}")
     private String swaggerUser;
+
     @Value("${swagger.password}")
     private String swaggerPassword;
-
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
@@ -49,13 +49,17 @@ public class SecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         String[] whiteList = tenduckProperties.getSecurity().getWhitelist().toArray(String[]::new);
-        Arrays.stream(whiteList).forEach(whiteListMapping ->  log.info("White List Request Value : {}", whiteListMapping));
-        http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
-            authorizationManagerRequestMatcherRegistry
-                    .requestMatchers(whiteList).permitAll();
-        });
-//        http.apply(filterConfig);
+        Arrays.stream(whiteList)
+                .forEach(
+                        whiteListMapping ->
+                                log.info("White List Request Value : {}", whiteListMapping));
+        http.authorizeHttpRequests(
+                authorizationManagerRequestMatcherRegistry -> {
+                    authorizationManagerRequestMatcherRegistry
+                            .requestMatchers(whiteList)
+                            .permitAll();
+                });
+        //        http.apply(filterConfig);
         return http.build();
     }
-
 }

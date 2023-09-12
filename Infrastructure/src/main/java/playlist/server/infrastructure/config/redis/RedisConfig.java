@@ -1,5 +1,7 @@
 package playlist.server.infrastructure.config.redis;
 
+
+import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -12,28 +14,27 @@ import org.springframework.data.redis.core.RedisKeyValueAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import playlist.server.properties.RedisProperties;
 
-import java.time.Duration;
-
 @Slf4j
 @EnableRedisRepositories(
         basePackages = "playlist.server",
-        enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP
-)
+        enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 @Configuration
 @RequiredArgsConstructor
 public class RedisConfig {
-  private final RedisProperties redisProperties;
-  
-  @Bean
-  public RedisConnectionFactory redisConnectionFactory() {
-    RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort());
-    
-    LettuceClientConfiguration clientConfiguration =
-            LettuceClientConfiguration.builder()
-                    .commandTimeout(Duration.ofSeconds(1))
-                    .shutdownTimeout(Duration.ZERO)
-                    .build();
-    
-    return new LettuceConnectionFactory(redisConfig, clientConfiguration);
-  }
+    private final RedisProperties redisProperties;
+
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory() {
+        RedisStandaloneConfiguration redisConfig =
+                new RedisStandaloneConfiguration(
+                        redisProperties.getHost(), redisProperties.getPort());
+
+        LettuceClientConfiguration clientConfiguration =
+                LettuceClientConfiguration.builder()
+                        .commandTimeout(Duration.ofSeconds(1))
+                        .shutdownTimeout(Duration.ZERO)
+                        .build();
+
+        return new LettuceConnectionFactory(redisConfig, clientConfiguration);
+    }
 }
