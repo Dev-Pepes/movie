@@ -2,7 +2,7 @@
 
 echo "> 8080 port kill && Auto build"
 
-REPOSITORY=/var/app/libs
+REPOSITORY=/var/app
 
 # 8080 포트를 사용하는 프로세스의 PID를 검색
 echo ", 8080 port 사용하는 애플리케이션 pid 확인"
@@ -25,10 +25,10 @@ echo "> app.jar위치 디렉토리로 이동"
 cd $REPOSITORY
 
 echo "> Build 파일 복사"
-cp $REPOSITORY/*.jar $REPOSITORY/playlist_be.jar
+cp $REPOSITORY/app.jar $REPOSITORY/playlist_be.jar
 
 echo "> 새 애플리케이션 배포"
-JAR_NAME=$(ls -tr $REPOSITORY/ | grep jar | tail -n 1) 
+JAR_NAME=playlist_be.jar
 
 # 백그라운드 실행
 echo "› JAR Name: $JAR_NAME"
