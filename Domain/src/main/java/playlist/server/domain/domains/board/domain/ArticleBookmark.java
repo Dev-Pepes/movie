@@ -1,5 +1,6 @@
 package playlist.server.domain.domains.board.domain;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -18,15 +19,14 @@ import playlist.server.domain.domains.AbstractTimeStamp;
 @Table(name = "tbl_article_bookmark")
 @NoArgsConstructor
 public class ArticleBookmark extends AbstractTimeStamp {
-  
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "articleId")
-  private Article article;
-  
-  @NotNull
-  private Long userId;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "articleId")
+    private Article article;
+
+    @NotNull private Long userId;
 }
