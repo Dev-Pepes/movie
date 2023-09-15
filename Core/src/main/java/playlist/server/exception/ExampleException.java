@@ -7,8 +7,4 @@ public class ExampleException extends BaseException {
     private ExampleException() {
         super(GlobalException.EXAMPLE_ERROR);
     }
-
-    public static void main(String[] args) {
-        throw ExampleException.EXCEPTION;
-    }
 }
