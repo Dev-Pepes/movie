@@ -1,4 +1,4 @@
-package playlist.server.domain.domains.user.domains;
+package playlist.server.domain.domains.user.domain;
 
 public enum LoginType {
     DEFAULT,

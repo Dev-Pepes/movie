@@ -1,4 +1,4 @@
-package playlist.server.domain.domains.user.domains;
+package playlist.server.domain.domains.user.domain;
 
 
 import jakarta.persistence.*;
@@ -49,4 +49,11 @@ public class User extends AbstractTimeStamp {
 
     @Column(name = "update_user")
     private long updateUser;
+
+    @Builder
+    public User(String email, String password,  AccountRole role) {
+        this.email = email;
+        this.accountRole = role;
+        this.password = password;
+    }
 }
