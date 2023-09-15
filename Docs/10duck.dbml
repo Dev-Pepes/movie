@@ -143,25 +143,6 @@ Table Notificate.setting [
 }
 //---------------------------------------------------------
 
-Table Board.category[
-  headercolor: #24BAB1, note: '게시판 카테고리'
-] {
-  id long [pk, increment, note: '게시판 카테고리 ID']
-  name varchar [not null, note: '카테고리 명']
-  category_type varchar [not null,default:'NORMAL',
-    note: '''
-      카테고리 권한
-      - NORMAL : 일반사용자 + 관리자 확인가능
-      - ADMIN : 관리자만 확인가능
-    '''
-  ]
-  description varchar [note:'카테고리 사용 용도']
-  created_at datetime [default: `now()`, note: '카테고리 생성일']
-  created_user long [not null, note: '생성한 관리자 ID입력, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
-  updated_at datetime [default: `now()`, note: '카테고리 정보 업데이트']
-  updated_user long [not null, note: '마지막에 수정한 관리자 ID입력, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
-}
-
 Table Board.board[
   headercolor: #24BAB1, note: '게시판, 타입별로 하위 게시판 추가 가능'
 ] {
@@ -176,7 +157,6 @@ Table Board.board[
     - ADMIN : 관리자만 확인가능
     - FAQ(ONETOONE) : FAQ, 1:1
   ''']
-  category_id long [ref: > Board.category.id, note: '게시판이 포함된 카테고리']
   description varchar [note:'게시판 사용 용도']
   created_at datetime [default: `now()`, note: '게시판 생성일']
   created_user long [not null, note: '생성한 관리자 ID입력, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
@@ -215,7 +195,7 @@ Table Board.article[
   updated_user long [not null, note: '마지막에 수정한 사용자 ID입력, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
 }
 
-Table Board.article_playlist[
+Table Board.playlist[
   headercolor: #24BAB1,
   note: '플레이 리스트 게시물 정보 저장하는 테이블'
 ] {
@@ -296,7 +276,7 @@ Table Board.article_like[
   '''
 ] {
   id long [pk,increment, note: 'ID']
-  board_id long [ref: > Board.article.id, note:'좋아요를 누른 게시물 ID']
+  article_id long [ref: > Board.article.id, note:'좋아요를 누른 게시물 ID']
   user_id long [not null, note: '좋아요를 누른 사용자의 UID, 관계 기록하지 않은 이유는 계정 탈퇴 이후에도 정보를 남겨두기 위함.']
   like_at datetime [default: `now()`, note:'좋아요를 누른 일자']
 }
@@ -308,7 +288,7 @@ Table Board.article_bookmark[
   '''
 ] {
   id long [pk,increment, note: 'ID']
-  board_id long [ref: > Board.article.id, note:'북마크를 누른 게시물 ID']
+  article_id long [ref: > Board.article.id, note:'북마크를 누른 게시물 ID']
   user_id long [not null, note: '북마크를 누른 사용자의 UID, 관계 기록하지 않은 이유는 계정 탈퇴 이후에도 정보를 남겨두기 위함.']
   bookmark_at datetime [default: `now()`, note:'북마크를 누른 일자']
 }
