@@ -19,7 +19,7 @@ import playlist.server.domain.domains.AbstractTimeStamp;
 @Entity
 @Table(name = "user_login_history")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class history extends AbstractTimeStamp {
+public class History extends AbstractTimeStamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

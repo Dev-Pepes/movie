@@ -13,9 +13,9 @@ import playlist.server.domain.domains.AbstractTimeStamp;
 
 @Getter
 @Entity
-// @Table(name = "follow")
+// @Table(name = "following")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class follow extends AbstractTimeStamp {
+public class Following extends AbstractTimeStamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +27,5 @@ public class follow extends AbstractTimeStamp {
     private Long userId;
 
     @Column(nullable = false)
-    private Long followUserId;
+    private Long followingUserId;
 }

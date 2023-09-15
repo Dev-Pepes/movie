@@ -25,7 +25,7 @@ public abstract class AbstractTimeStamp {
     private Timestamp createdAt;
 
     @Column(
-            name = "created_at",
+            name = "updated_at",
             nullable = false,
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @UpdateTimestamp
