@@ -24,4 +24,4 @@ jobs:
 
         env:
           DBDOCS_TOKEN: ${{ secrets.DBDOCS_TOKEN }}
-        run: dbdocs build ./Docs/Picasso.dbml --project=10duck
+        run: dbdocs build ./Docs/10duck.dbml --project=10duck
