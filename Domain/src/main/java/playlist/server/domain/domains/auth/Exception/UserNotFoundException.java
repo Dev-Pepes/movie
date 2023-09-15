@@ -1,4 +1,4 @@
-package playlist.server.domain.domains.user.Exception;
+package playlist.server.domain.domains.auth.Exception;
 
 
 import playlist.server.exception.BaseException;

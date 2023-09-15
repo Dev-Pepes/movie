@@ -1,4 +1,4 @@
-package playlist.server.domain.domains.user.domain;
+package playlist.server.domain.domains.auth.domain;
 
 
 import jakarta.persistence.*;

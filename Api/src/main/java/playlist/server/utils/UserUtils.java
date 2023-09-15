@@ -3,8 +3,8 @@ package playlist.server.utils;
 
 import lombok.RequiredArgsConstructor;
 import playlist.server.config.security.SecurityUtils;
-import playlist.server.domain.domains.user.adaptor.UserAdaptor;
-import playlist.server.domain.domains.user.domain.User;
+import playlist.server.domain.domains.auth.adaptor.UserAdaptor;
+import playlist.server.domain.domains.auth.domain.User;
 
 @RequiredArgsConstructor
 public class UserUtils {

@@ -1,11 +1,11 @@
-package playlist.server.domain.domains.user.adaptor;
+package playlist.server.domain.domains.auth.adaptor;
 
 
 import lombok.RequiredArgsConstructor;
 import playlist.server.annotation.Adaptor;
-import playlist.server.domain.domains.user.Exception.UserNotFoundException;
-import playlist.server.domain.domains.user.domain.User;
-import playlist.server.domain.domains.user.repository.UserRepository;
+import playlist.server.domain.domains.auth.Exception.UserNotFoundException;
+import playlist.server.domain.domains.auth.domain.User;
+import playlist.server.domain.domains.auth.repository.UserRepository;
 
 @Adaptor
 @RequiredArgsConstructor
