@@ -51,7 +51,7 @@ public class User extends AbstractTimeStamp {
     private long updateUser;
 
     @Builder
-    public User(String email, String password,  AccountRole role) {
+    public User(String email, String password, AccountRole role) {
         this.email = email;
         this.accountRole = role;
         this.password = password;
