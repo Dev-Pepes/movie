@@ -16,17 +16,17 @@ import playlist.server.domain.domains.AbstractTimeStamp;
 
 @Entity
 @Getter
-@Table(name = "tbl_article_bookmark")
+@Table(name = "tbl_reply_notlike")
 @NoArgsConstructor
-public class ArticleBookmark extends AbstractTimeStamp {
+public class ReplyNotLike extends AbstractTimeStamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "articleId")
-    private Article article;
+    @JoinColumn(name = "reply_id")
+    private Reply reply;
 
     @NotNull private Long userId;
 }
