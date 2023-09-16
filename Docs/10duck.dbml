@@ -420,7 +420,6 @@ TableGroup User {
 }
 //게시물 카테고리 그룹
 TableGroup Board_Category{
-  Board.category
   Board.board
 }
 // 게시물 그룹
