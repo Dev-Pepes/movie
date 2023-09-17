@@ -1,13 +1,10 @@
-package playlist.server.domain.domains.board.domain;
+package playlist.server.domain.domains.playlist.domain;
 
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -16,17 +13,23 @@ import playlist.server.domain.domains.AbstractTimeStamp;
 
 @Entity
 @Getter
-@Table(name = "tbl_article_bookmark")
+@Table(name = "pls_video")
 @NoArgsConstructor
-public class ArticleBookmark extends AbstractTimeStamp {
+public class PlaylistVideo extends AbstractTimeStamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "articleId")
-    private Article article;
+    @NotNull private String title;
 
-    @NotNull private Long userId;
+    // TODO: created_user 컬럼 나중에 추가해주기
+
+    @NotNull private String thumbnailLink;
+
+    private String countView;
+
+    private String totalVideos;
+
+    @NotNull private String videoPlaybackTime;
 }

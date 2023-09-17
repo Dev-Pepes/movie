@@ -1,4 +1,4 @@
-package playlist.server.domain.domains.board.domain;
+package playlist.server.domain.domains.playlist.domain;
 
 
 import jakarta.persistence.Entity;
@@ -9,24 +9,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import playlist.server.domain.domains.AbstractTimeStamp;
 
 @Entity
 @Getter
-@Table(name = "tbl_article_bookmark")
+@Table(name = "tbl_playlist_like")
 @NoArgsConstructor
-public class ArticleBookmark extends AbstractTimeStamp {
+public class PlaylistLike extends AbstractTimeStamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "articleId")
-    private Article article;
+    @JoinColumn(name = "playlistId")
+    private Playlist playlist;
 
-    @NotNull private Long userId;
+    private Long userId;
 }
