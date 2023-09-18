@@ -107,8 +107,8 @@ Table Auth.follow [
    headercolor: #E4A62E, note: '사용자 팔로우'
 ] {
   id long [pk, increment]
-  user_id long [ref: > Auth.user.id, note: '내가']
-  follow_user_id long [ref:> Auth.user.id, note: '팔로우한 사용자']
+  user_id long [ref: > Auth.user.id,not null,  note: '내가']
+  follow_user_id long [ref:> Auth.user.id,not null,  note: '팔로우한 사용자']
   Indexes{
     (user_id) [name:'사용자ID를 기준으로 한 인덱싱']
   }
