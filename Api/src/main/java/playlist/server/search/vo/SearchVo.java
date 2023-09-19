@@ -1,18 +1,13 @@
 package playlist.server.search.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Getter
-@Setter
 public class SearchVo {
-
     private String title;
     private String description;
 }

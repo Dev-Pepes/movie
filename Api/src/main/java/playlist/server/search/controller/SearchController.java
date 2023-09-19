@@ -1,5 +1,6 @@
 package playlist.server.search.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +12,11 @@ import playlist.server.search.vo.SearchVo;
 import java.util.List;
 
 @RestController
-@RequestMapping("/playlist/server/search")
+@RequestMapping("/search")
+@RequiredArgsConstructor
 public class SearchController {
 
     private final SearchService searchService;
-
-    public SearchController(SearchService searchService) {
-        this.searchService = searchService;
-    }
 
     // 태그 기반으로 검색
     @GetMapping("/tag")
@@ -26,7 +24,7 @@ public class SearchController {
         List<SearchVo> searchResults = searchService.searchByTag(tag);
 
         if (searchResults.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new IllegalArgumentException("해당 태그가 없다");
         }
 
         return ResponseEntity.ok(searchResults);

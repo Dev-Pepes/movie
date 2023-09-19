@@ -1,4 +1,4 @@
-package playlist.server.ranking;
+package playlist.server.mainpagerankingInfo.vo;
 
 import lombok.Builder;
 import lombok.Getter;
