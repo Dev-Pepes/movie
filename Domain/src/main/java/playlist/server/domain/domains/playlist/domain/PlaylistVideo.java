@@ -29,7 +29,5 @@ public class PlaylistVideo extends AbstractTimeStamp {
 
     private int viewCount;
 
-    private int totalVideos;
-
     @NotNull private String videoPlaybackTime;
 }
