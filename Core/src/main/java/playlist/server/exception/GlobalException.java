@@ -19,7 +19,8 @@ public enum GlobalException implements BaseErrorCode {
     EXPIRED_REFRESH_TOKEN_ERROR(UNAUTHORIZED.value(), "401-1", "리프레시 토큰이 만료되었습니다."),
     INVALID_TOKEN_ERROR(UNAUTHORIZED.value(), "401-2", "올바르지 않은 토큰입니다."),
     DATE_FORMAT_ERROR(BAD_REQUEST.value(), "400-2", "날짜 형식을 확인해주세요."),
-    ;
+    SECURITY_CONTEXT_NOT_FOUND_ERROR(
+            INTERNAL_SERVER_ERROR.value(), "500-2", "Security Context 에러입니다.");
 
     private final Integer statusCode;
     private final String errorCode;
