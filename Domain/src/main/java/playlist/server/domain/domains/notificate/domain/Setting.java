@@ -21,23 +21,23 @@ public class Setting extends AbstractTimeStamp {
     @Column(nullable = false, length = 200)
     private String email;
 
-    boolean etc_param1;
-
-    boolean etc_param2;
-
-    boolean etc_param3;
-
-    boolean etc_param4;
-
-    boolean etc_param5;
-
-    boolean etc_param6;
-
-    boolean etc_param7;
-
-    boolean etc_param8;
-
-    boolean etc_param9;
+    //    boolean etc_param1;
+    //
+    //    boolean etc_param2;
+    //
+    //    boolean etc_param3;
+    //
+    //    boolean etc_param4;
+    //
+    //    boolean etc_param5;
+    //
+    //    boolean etc_param6;
+    //
+    //    boolean etc_param7;
+    //
+    //    boolean etc_param8;
+    //
+    //    boolean etc_param9;
 
     @Column(
             name = "updated_at",

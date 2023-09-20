@@ -9,7 +9,7 @@ import playlist.server.domain.domains.AbstractTimeStamp;
 
 @Getter
 @Entity
-@Table(name = "user")
+@Table(name = "tbl_user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends AbstractTimeStamp {
 
@@ -34,12 +34,12 @@ public class User extends AbstractTimeStamp {
     private LoginType loginType;
 
     @NotNull
-    @Column(name = "fail_cnt", nullable = false)
+    @Column(nullable = false)
     @ColumnDefault("0")
     private int failCnt;
 
     @NotNull
-    @Column(name = "rank_id", nullable = false)
+    @Column(nullable = false)
     @ColumnDefault("0")
     private int rankId;
 
@@ -47,8 +47,7 @@ public class User extends AbstractTimeStamp {
     @ColumnDefault("0")
     private int exp;
 
-    @Column(name = "update_user")
-    private long updateUser;
+    @Column private long updateUser;
 
     @Builder
     public User(String email, String password, AccountRole role) {
