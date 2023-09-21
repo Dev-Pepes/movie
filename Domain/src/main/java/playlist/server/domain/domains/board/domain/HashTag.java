@@ -15,16 +15,12 @@ import playlist.server.domain.domains.AbstractTimeStamp;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "tbl_article_tag")
-public class ArticleTag extends AbstractTimeStamp {
+@Table(name = "tbl_hashtag")
+public class HashTag extends AbstractTimeStamp {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "article_id")
-  private Article article;
   
   private String content;
 }
