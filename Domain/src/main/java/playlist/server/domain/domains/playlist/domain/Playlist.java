@@ -42,7 +42,4 @@ public class Playlist extends AbstractTimeStamp {
 
     @OneToMany(mappedBy = "playlist", orphanRemoval = true)
     private List<PlaylistLike> likes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "playlist", orphanRemoval = true)
-    private List<PlaylistTag> tags = new ArrayList<>();
 }

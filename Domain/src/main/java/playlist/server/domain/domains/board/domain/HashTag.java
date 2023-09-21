@@ -1,4 +1,4 @@
-package playlist.server.domain.domains.playlist.domain;
+package playlist.server.domain.domains.board.domain;
 
 
 import jakarta.persistence.Entity;
@@ -13,8 +13,8 @@ import playlist.server.domain.domains.AbstractTimeStamp;
 
 @Entity
 @Getter
-@Table(name = "tag_hashtag")
 @NoArgsConstructor
+@Table(name = "tbl_hashtag")
 public class HashTag extends AbstractTimeStamp {
 
     @Id
