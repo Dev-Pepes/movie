@@ -29,7 +29,7 @@ public class Board extends AbstractTimeStamp {
     @NotNull private String name;
 
     @Enumerated(EnumType.STRING)
-    BoardType boardType;
+    private BoardType boardType;
 
     private String description;
 

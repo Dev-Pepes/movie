@@ -17,7 +17,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import playlist.server.domain.domains.AbstractTimeStamp;
 import playlist.server.domain.domains.board.domain.Article;
-import playlist.server.domain.domains.board.domain.PlaylistTag;
 
 @Entity
 @Getter
@@ -43,7 +42,4 @@ public class Playlist extends AbstractTimeStamp {
 
     @OneToMany(mappedBy = "playlist", orphanRemoval = true)
     private List<PlaylistLike> likes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "playlist", orphanRemoval = true)
-    private List<PlaylistTag> tags = new ArrayList<>();
 }

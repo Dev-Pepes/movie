@@ -1,0 +1,449 @@
+Project playlist{
+  database_type: 'MySQL'
+  Note: '''
+    # 10Duck DB스키마 구조
+    - Auth:사용자 정보 관련 테이블
+    - Notificate: 사용자 알림설정
+    - Board: 게시판 관련 테이블
+
+    ## 미완료된 작업
+    - 각각의 활동과 관련한 경험치 설정 기능
+    - 랭크들의 경험치 요구량 테이블
+    - 리소스의 경우에는 썸네일말고 아직 생각을 못하였슴. 필요한거 있으면 알랴주세오
+    - 랭킹조회 테이블
+
+    ## 전달사항
+    - 그외에도 문제 있으면 알랴주세오
+  '''
+}
+Enum Auth.login_type {
+  DEFAULT [note: "기본 사용자 가입"]
+  KAKAO [note: "카카오"]
+  NAVER [note: "네이버"]
+  GOOGLE [note: "구글"]
+  APPLE [note: "애플"]
+  GITHUB [note: "깃허브"]
+}
+
+Table Auth.user [
+  headercolor: #E4A62E, note: '사용자 계정 정보 저장 테이블'
+] {
+  id long [pk, increment, note: "User UID"]
+  email varchar [unique, not null , note: "사용자 로그인 ID"]
+  password varchar [not null, note: "사용자 패스워드"]
+  profile varchar [not null, note: "프로필 링크" ]
+  login_type varchar [
+    not null, default: "DEFAULT",
+    note: '''
+      사용자 회원가입 종류
+      - DEFAULT: 기본 사용자 가입
+      - KAKAO: 카카오
+      - NAVER: 네이버
+      - GOOGLE: 구글
+      - APPLE: 애플
+      - GITHUB: 깃허브
+    '''
+  ]
+  status varchar [
+    not null,
+    note: '''
+      가입 방법에 따라 DEFAULT가 달라져야 하기 때문에 DEFAULT를 일부로 부여하지 않음.
+      - NOT_ACTIVE: 계정 인증 전
+      - ACTIVE: 계정 인증 및 정상 사용 가능
+      - TEMP_LOCK : 계정 임시 잠금
+      - TEMP_SUSPENSION : 계정 기간정지
+      - SUSPENSION: 계정 정지
+      - DELETE: 회원 탈퇴 및 삭제 필요 계정
+    '''
+  ]
+  role varchar [
+    not null, default: "USER",
+    note: '''
+      사용자 권한
+      - USER: 사용자
+      - ADMIN: 관리자
+    '''
+  ]
+  fail_cnt int [not null, default: 0, note: '패스워드 실해 횟수']
+  rank varchar [not null, default: '입덕',note: '사용자 계정 랭크']
+  exp int [not null, default: 0, note: '사용자 랭크의 현재 활동 경험치']
+  created_at datetime [not null, default: `now()`, note: '회원 가입일']
+  updated_at datetime [not null, default: `now()`, note: '마지막 업데이트일']
+  update_user long [ref: > Auth.user.id, note: '마지막 업데이트 사용자 (관리자가 할 수도 있기에 기록)']
+}
+Table Auth.suspension_date [
+  headercolor: #E4A62E,
+  note: '''
+    계정이 기간정지인경우 언제까지 정지가되는지를 남기는 테이블
+  '''
+]{
+  id long [pk, increment, note: "pk"]
+  user_id long [ref: > Auth.user.id, note: '사용자 UID']
+  suspension_at datetime [not null, note: '정지종료일']
+}
+Table Auth.social_info [
+  headercolor: #E4A62E, note: '소셜 사용자를 위한 추가 정보'
+]{
+  user_id long [ref: - Auth.user.id]
+  access_token varchar [not null, note: '액세스 토큰 [필요 없을수도 있슴]']
+  refresh_token varchar [not null, note: '소셜 재로그인을 위한 리프래시 토큰']
+  created_at datetime [not null, default: `now()`]
+}
+
+Table Auth.user_login_history [
+  headercolor: #E4A62E, note: '사용자 계정 로그인 기록 로그'
+] {
+  id long [pk, increment, note: "pk"]
+  user_id long [ref: > Auth.user.id, note: '사용자 UID']
+  login_at datetime [not null, note: '사용자 로그인 일시']
+  param1 varchar [note: '뭔가 기록할만한 요소 생각 1']
+  param2 varchar [note: '뭔가 기록할만한 요소 생각 2']
+  param3 varchar [note: '뭔가 기록할만한 요소 생각 3']
+  param4 varchar [note: '뭔가 기록할만한 요소 생각 4']
+  param5 varchar [note: '뭔가 기록할만한 요소 생각 5']
+}
+
+Table Auth.follow [
+   headercolor: #E4A62E, note: '사용자 팔로우'
+] {
+  id long [pk, increment]
+  user_id long [ref: > Auth.user.id,not null,  note: '내가']
+  follow_user_id long [ref:> Auth.user.id,not null,  note: '팔로우한 사용자']
+  Indexes{
+    (user_id) [name:'사용자ID를 기준으로 한 인덱싱']
+  }
+}
+
+Table Auth.following [
+   headercolor: #E4A62E, note: '사용자 팔로윙'
+] {
+  id long [pk, increment]
+  user_id long [ref: > Auth.user.id, not null, note: '내가']
+  following_user_id long [ref:> Auth.user.id, not null,  note: '팔로우한 사용자']
+  Indexes{
+    (user_id) [name:'사용자ID를 기준으로 한 인덱싱']
+  }
+}
+
+//---------------------------------------------------------
+Table Notificate.setting [
+   headercolor: #126E7A, note: '사용자 알림 설정'
+] {
+    user_id long [ref: - Auth.user.id, not null, note:'사용자 UID']
+    etc_param1 tinyint [note: '알림종류 기록 해야함']
+    etc_param2 tinyint [note: '알림종류 기록 해야함']
+    etc_param3 tinyint [note: '알림종류 기록 해야함']
+    etc_param4 tinyint [note: '알림종류 기록 해야함']
+    etc_param5 tinyint [note: '알림종류 기록 해야함']
+    etc_param6 tinyint [note: '알림종류 기록 해야함']
+    etc_param7 tinyint [note: '알림종류 기록 해야함']
+    etc_param8 tinyint [note: '알림종류 기록 해야함']
+    etc_param9 tinyint [note: '알림종류 기록 해야함']
+    updated_at datetime [not null, default: `now()`, note: '마지막 업데이트일']
+}
+//---------------------------------------------------------
+
+Table Board.board[
+  headercolor: #24BAB1, note: '게시판, 타입별로 하위 게시판 추가 가능'
+] {
+  id long [pk, increment, note: '게시판 ID']
+  name varchar [not null, note: '게시판 명' ]
+  board_type varchar [not null, default: 'PLAYLIST',
+  note: '''
+    게시판의 종류
+    - PLAYLIST: 일반적인 게시판, 플레이리스트를 올리는 게시판
+    - NOTI : 공지사항
+    - NORMAL : 일반적인 게시판
+    - ADMIN : 관리자만 확인가능
+    - FAQ(ONETOONE) : FAQ, 1:1
+  ''']
+  description varchar [note:'게시판 사용 용도']
+  created_at datetime [default: `now()`, note: '게시판 생성일']
+  created_user long [not null, note: '생성한 관리자 ID입력, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
+  updated_at datetime [default: `now()`, note: '게시판 정보 업데이트']
+  updated_user long [not null, note: '마지막에 수정한 관리자 ID입력, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
+}
+
+Table Board.article[
+  headercolor: #24BAB1,
+  note: '게시판, 타입별로 하위 게시판 추가 가능'
+] {
+  id long [pk, increment, note: '게시물 ID']
+  board_id long [ref: > Board.board.id, not null, note: '게시판 ID']
+  title varchar [not null, note: '게시물 제목']
+  content blob [note: '게시물 정보']
+  article_type varchar [not null, default: 'PLAYLIST',
+  note: '''
+    게시물 종류
+    - PLAYLIST: 일반적인 게시판
+    - NOTI : 공지사항
+    - NORMAL : 일반적인 게시물
+    - ADMIN: Norma과 같은 양식의 게시물
+    - FAQ(ONETOONE) : FAQ, 1:1
+  '''
+  ]
+  status varchar [default: 'PUBLIC', note:'''
+    게시물 정보
+      - WRITING : 작성중
+      - PUBLIC : 공개상태
+      - HIDING : 숨김처리
+      - DELETE : 삭제처리
+  ''']
+  created_at datetime [default: `now()`, note: '게시물 생성일']
+  created_user long [not null, note: '게시물 작성 사용자 ID입력, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
+  updated_at datetime [default: `now()`, note: '게시물 정보 업데이트']
+  updated_user long [not null, note: '마지막에 수정한 사용자 ID입력, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
+}
+
+Table Board.playlist[
+  headercolor: #24BAB1,
+  note: '플레이 리스트 게시물 정보 저장하는 테이블'
+] {
+  article_id long [ref: - Board.article.id, not null, note: '게시물 ID']
+  thumnail_link varchar [note:'''
+    썸네일 이미지 링크값 컬럼으로,
+    - 썸네일 이미지를 올리지 않은 경우 : Youtube의 이미지
+    - 썸네일 이미지를 업로드 한 경우 : ObjectStorage업로드 이후 해당 링크를 기록한다.
+  ''']
+  playlist_link varchar [unique, not null, note: '플레이리스트 링크']
+}
+
+Table Board.article_playlist_taglist [
+  headercolor: #24BAB1,
+  note: '플레이 리스트 게시물 정보 저장하는 테이블'
+] {
+  id long [pk, increment, note: 'PK']
+  article_id long [ref: > Board.article.id, not null, note: '게시물 ID']
+  tag_id long [ref: > Tag.hashtag.id, not null, note: '태그ID']
+}
+
+Table Board.article_noti [
+  headercolor: #24BAB1,
+  note: '공지사항 게시물 정보 저장 테이블'
+] {
+  article_id long [ref: - Board.article.id, not null, note: '게시물 ID']
+  param varchar [note: '일단 파라미터']
+  param1 varchar [note: '일단 파라미터']
+  param2 varchar [note: '일단 파라미터']
+  param3 varchar [note: '일단 파라미터']
+  param4 varchar [note: '일단 파라미터']
+  param5 varchar [note: '일단 파라미터']
+}
+
+Table Board.article_normal [
+  headercolor: #24BAB1,
+  note: '일반 게시물 정보 저장 테이블'
+] {
+  article_id long [ref: - Board.article.id, not null, note: '게시물 ID']
+  param varchar [note: '일단 파라미터']
+  param1 varchar [note: '일단 파라미터']
+  param2 varchar [note: '일단 파라미터']
+  param3 varchar [note: '일단 파라미터']
+  param4 varchar [note: '일단 파라미터']
+  param5 varchar [note: '일단 파라미터']
+}
+
+Table Board.article_admin [
+  headercolor: #24BAB1,
+  note: '일반 게시물 정보 저장 테이블'
+] {
+  article_id long [ref: - Board.article.id, not null, note: '게시물 ID']
+  param varchar [note: '일단 파라미터']
+  param1 varchar [note: '일단 파라미터']
+  param2 varchar [note: '일단 파라미터']
+  param3 varchar [note: '일단 파라미터']
+  param4 varchar [note: '일단 파라미터']
+  param5 varchar [note: '일단 파라미터']
+}
+
+Table Board.article_faq [
+  headercolor: #24BAB1,
+  note: '일반 게시물 정보 저장 테이블'
+] {
+  article_id long [ref: - Board.article.id, not null, note: '게시물 ID']
+  param varchar [note: '일단 파라미터']
+  param1 varchar [note: '일단 파라미터']
+  param2 varchar [note: '일단 파라미터']
+  param3 varchar [note: '일단 파라미터']
+  param4 varchar [note: '일단 파라미터']
+  param5 varchar [note: '일단 파라미터']
+}
+
+Table Board.article_like[
+  headercolor: #24BAB1,
+  note: '''
+    게시물의 좋아요 정보를 기록한 테이블
+  '''
+] {
+  id long [pk,increment, note: 'ID']
+  article_id long [ref: > Board.article.id, note:'좋아요를 누른 게시물 ID']
+  user_id long [not null, note: '좋아요를 누른 사용자의 UID, 관계 기록하지 않은 이유는 계정 탈퇴 이후에도 정보를 남겨두기 위함.']
+  like_at datetime [default: `now()`, note:'좋아요를 누른 일자']
+}
+
+Table Board.article_bookmark[
+  headercolor: #24BAB1,
+  note: '''
+    게시물의 북마크 정보를 기록한 테이블
+  '''
+] {
+  id long [pk,increment, note: 'ID']
+  article_id long [ref: > Board.article.id, note:'북마크를 누른 게시물 ID']
+  user_id long [not null, note: '북마크를 누른 사용자의 UID, 관계 기록하지 않은 이유는 계정 탈퇴 이후에도 정보를 남겨두기 위함.']
+  bookmark_at datetime [default: `now()`, note:'북마크를 누른 일자']
+}
+
+Table Board.reply[
+  headercolor: #24BAB1,
+  note: '게시물의 댓글 정보 테이블'
+]{
+  id long [pk, increment, note:'댓글 ID']
+  article_id long [ref: > Board.article.id, not null, note: '댓글이 달린 게시물ID']
+  content blob [note: '댓글 내용']
+  like_cnt int [default:0, note: '좋아요 갯수']
+  notlike_cnt int [default:0, note: '싫어요 / 갯수']
+  created_at datetime [default: `now()`, note: '댓글 생성일']
+  created_user long [not null, note: '댓글 작성 사용자 ID입력, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
+  updated_at datetime [default: `now()`, note: '게시물 정보 업데이트']
+  updated_user long [not null, note: '마지막에 수정한 사용자 ID입력, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
+}
+
+Table Board.reply_like[
+  headercolor: #24BAB1,
+  note: '댓글의 좋아요'
+]{
+  id long [pk, increment, note:'PK']
+  reply_id long [ref: > Board.reply.id, not null, note:'댓글 ID' ]
+  user_id long [not null, note:'해당 댓글을 좋아요를 누른 사용자 ID, 관계 안잡은 이유는 회원탈퇴 이후에도 기록을 남겨두기 위함.']
+  like_at datetime [default: `now()`, note:'좋아요를 누른 일자']
+}
+
+Table Board.reply_notlike[
+  headercolor: #24BAB1,
+  note: '댓글의 싫어요'
+]{
+  id long [pk, increment, note:'PK']
+  reply_id long [ref: > Board.reply.id, not null, note:'댓글 ID' ]
+  user_id long [not null, note:'해당 댓글을 좋아요를 누른 사용자 ID, 관계 안잡은 이유는 회원탈퇴 이후에도 기록을 남겨두기 위함.']
+  notlike_at datetime [default: `now()`, note:'좋아요를 누른 일자']
+}
+//-----------------------------------------------------------------
+Table Rank.tag_rank[
+  headercolor: #6724BB,
+  note: '''
+    태그 검색, 사용 인기 순위
+  '''
+]{
+  dd int
+}
+
+Table Rank.board_rank[
+  headercolor: #6724BB,
+  note: '''
+    게시물 인기 순위
+  '''
+]{
+  dd int
+}
+
+
+
+//-----------------------------------------------------------------
+Table Tag.hashtag [
+  note: '''
+    해쉬태그
+  '''
+, headercolor: #DE65C3] {
+  id long [pk, increment, note: 'PK, TagID']
+  content varchar [not null, note:'태그내용']
+}
+
+//-----------------------------------------------------------------
+
+Table Common.resource [
+  headercolor: #990D0D,
+  note:'파일 리소스'
+] {
+  id long [pk, increment, note:'리소스 ID']
+  file_type varchar [not null, default: 'IMAGE', note: 'File인지 Image인지를 분류']
+  link text [not null, default: '저장된 경로']
+  created_at datetime [default: `now()`, note: '파일 추가']
+  created_user long [not null, note: '파일 추가한 사용자ID, 관계를 묶지는 않은 이유는 Optional한 관계로 하기 떄문']
+}
+
+
+//-----------------------------------------------------------------
+
+Table Admin.article_report [
+  headercolor: #8F8DD8,
+  note: '''
+    신고된 게시물의 정보를 모아놓은 테이블
+  '''
+] {
+  id long [pk, increment, note:'PK']
+  board_id long [ref: - Board.article.id, note:'신고받은 게시물 ID']
+  status varchar [not null, default: 'WAITING',
+    note:'''
+      게시물의 처리 상태
+      - WAITING : 현재 아무 처리를 하지 않은 상태, 해당 상태만 관리자 처리사항에 출력한다.
+      - DELETE : 삭제처리를 한 게시물이 부여받는 상태값
+      - SUCCESS : 악의적인 신고로 들어온 게시물, 실제 아무 처리를 하지 않아도 되는 게시물
+    '''
+  ]
+  description blob [note: '관리자가 처리를 하면서 삭제처리를 하지 않은 경우 남기게 되는 설명']
+  processing_at datetime [note: '처리를 진행한 일자에 남기게 되는 일자']
+  processing_admin long [not null, note: '실제 처리를 진행한 관리자 ID']
+}
+
+Table Admin.article_report_user [
+  headercolor: #8F8DD8,
+  note: '''
+    게시물을 신고한 사용자 리스트
+  '''
+] {
+  id long [pk, increment, note:'PK']
+  report_id long [ref: > Admin.article_report.id, note: '신고 ID']
+  user_id long [not null, note: '사용자 ID, 관계는 회원탈퇴해도 남기고 싶기 때문에 맺지 않음.']
+  description blob [note: '신고 사유']
+  report_at datetime [default: `now()`, note: '해당 사용자가 신고한 일자']
+}
+
+//사용자 정보 관련 그룹
+TableGroup User {
+  Auth.user
+  Auth.social_info
+  Auth.user_login_history
+  Auth.follow
+  Auth.following
+  Auth.suspension_date
+  Notificate.setting
+}
+//게시물 카테고리 그룹
+TableGroup Board_Category{
+  Board.board
+}
+// 게시물 그룹
+TableGroup Board_Article {
+  Board.article
+  Board.article_noti
+  Board.article_normal
+  Board.article_admin
+  Board.article_faq
+  Board.article_bookmark
+  Board.article_like
+  Board.article_playlist_taglist
+}
+// 게시물 댓글 그룹
+TableGroup Board_Reply {
+  Board.reply
+  Board.reply_like
+  Board.reply_notlike
+}
+TableGroup Admin {
+  Admin.article_report
+  Admin.article_report_user
+}
+//로그, 리소스
+TableGroup Log {
+  Common.resource
+}
