@@ -52,4 +52,7 @@ public class Article extends AbstractTimeStamp {
 
     @OneToMany(mappedBy = "article", orphanRemoval = true)
     private List<ArticleBookmark> bookmarks = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "article", orphanRemoval = true)
+    private List<ArticleTag> articleTags = new ArrayList<>();
 }

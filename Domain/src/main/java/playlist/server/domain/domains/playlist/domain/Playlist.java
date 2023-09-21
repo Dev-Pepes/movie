@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import playlist.server.domain.domains.AbstractTimeStamp;
 import playlist.server.domain.domains.board.domain.Article;
+import playlist.server.domain.domains.board.domain.PlaylistTag;
 
 @Entity
 @Getter
