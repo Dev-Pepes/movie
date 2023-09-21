@@ -21,7 +21,10 @@ public abstract class AbstractTimeStamp {
             nullable = false,
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "yyyy-MM-dd hh:mm:ss",
+            timezone = "Asia/Seoul")
     private Timestamp createdAt;
 
     @Column(
@@ -29,6 +32,9 @@ public abstract class AbstractTimeStamp {
             nullable = false,
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "yyyy-MM-dd hh:mm:ss",
+            timezone = "Asia/Seoul")
     private Timestamp updatedAt;
 }

@@ -16,7 +16,7 @@ import playlist.server.domain.domains.AbstractTimeStamp;
 
 @Getter
 @Entity
-@Table(name = "suspension_date")
+@Table(name = "tbl_suspension_date")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SuspensionDate extends AbstractTimeStamp {
 

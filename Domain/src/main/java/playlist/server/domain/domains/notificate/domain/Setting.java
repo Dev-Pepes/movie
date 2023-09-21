@@ -1,11 +1,8 @@
 package playlist.server.domain.domains.notificate.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import java.sql.Timestamp;
 import lombok.*;
-import org.hibernate.annotations.UpdateTimestamp;
 import playlist.server.domain.domains.AbstractTimeStamp;
 
 @Getter
@@ -39,11 +36,4 @@ public class Setting extends AbstractTimeStamp {
     //
     //    boolean etc_param9;
 
-    @Column(
-            name = "updated_at",
-            nullable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @UpdateTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    private Timestamp createdAt;
 }
