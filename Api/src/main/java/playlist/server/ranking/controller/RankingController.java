@@ -10,8 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import playlist.server.domain.domains.ranking.domain.RankingInfo;
-import playlist.server.mainpagerankingInfo.vo.MainPageRankingInfoVo;
+import playlist.server.domain.domains.ranking.domain.RankingType;
 import playlist.server.ranking.service.RankingService;
+import playlist.server.ranking.vo.ResponseRankingDto;
+
+import java.util.List;
+
+import static playlist.server.domain.domains.ranking.domain.RankingInfo.MONTH;
+import static playlist.server.domain.domains.ranking.domain.RankingInfo.WEEK;
+import static playlist.server.domain.domains.ranking.domain.RankingType.isStringLikeOrView;
 
 @RestController
 @RequestMapping("/ranking")
@@ -23,35 +30,28 @@ public class RankingController {
 
     @Operation(summary = "랭킹을 조회합니다.")
     @GetMapping("/daily")
-    public ResponseEntity<MainPageRankingInfoVo> getDailyRanking(
+    public ResponseEntity<List<ResponseRankingDto>> getDailyRanking(
             @RequestParam(name = "type", defaultValue = "like") String type) {
-        MainPageRankingInfoVo rankingInfoVo = rankingService.getRanking(String.valueOf((RankingInfo.DAILY)), type, "boardId");
-        if (rankingInfoVo == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(rankingInfoVo);
+        return ResponseEntity.ok(getRanking(RankingInfo.DAILY, isStringLikeOrView(type)));
     }
 
     @Operation(summary = "주간 랭킹을 조회합니다.")
     @GetMapping("/weekly")
-    public ResponseEntity<MainPageRankingInfoVo> getWeeklyRanking(
+    public ResponseEntity<List<ResponseRankingDto>> getWeeklyRanking(
             @RequestParam(name = "type", defaultValue = "like") String type) {
-        MainPageRankingInfoVo rankingInfoVo = rankingService.getRanking(String.valueOf((RankingInfo.WEEKLY)), type, "boardId");
-        if (rankingInfoVo == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(rankingInfoVo);
-        }
+        return ResponseEntity.ok(getRanking(WEEK, isStringLikeOrView(type)));
+    }
 
 
     @Operation(summary = "월간 랭킹을 조회합니다.")
     @GetMapping("/monthly")
-    public ResponseEntity<MainPageRankingInfoVo> getMonthlyRanking(
+    public ResponseEntity<List<ResponseRankingDto>> getMonthlyRanking(
             @RequestParam(name = "type", defaultValue = "like") String type) {
-        MainPageRankingInfoVo rankingInfoVo = rankingService.getRanking(String.valueOf((RankingInfo.MONTHLY)), type, "boardId");
-        if (rankingInfoVo == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(rankingInfoVo);
+        return ResponseEntity.ok(getRanking(MONTH, isStringLikeOrView(type)));
+    }
+
+
+    private List<ResponseRankingDto> getRanking(RankingInfo period, RankingType searchType) {
+        return rankingService.getRankingList(period, searchType);
     }
 }
