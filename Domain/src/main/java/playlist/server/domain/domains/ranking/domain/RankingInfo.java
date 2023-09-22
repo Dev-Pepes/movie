@@ -1,5 +1,6 @@
 package playlist.server.domain.domains.ranking.domain;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

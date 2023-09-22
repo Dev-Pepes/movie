@@ -19,7 +19,11 @@ public enum GlobalException implements BaseErrorCode {
     EXPIRED_REFRESH_TOKEN_ERROR(UNAUTHORIZED.value(), "401-1", "리프레시 토큰이 만료되었습니다."),
     INVALID_TOKEN_ERROR(UNAUTHORIZED.value(), "401-2", "올바르지 않은 토큰입니다."),
     DATE_FORMAT_ERROR(BAD_REQUEST.value(), "400-2", "날짜 형식을 확인해주세요."),
-    ;
+    LIKE_INCREMENT_ERROR(INTERNAL_SERVER_ERROR.value(), "500-3", "좋아요 증가 실패"),
+    VIEW_INCREMENT_ERROR(INTERNAL_SERVER_ERROR.value(), "500-3", "조회수 증가 실패"),
+    TAG_NOT_FOUND(BAD_REQUEST.value(), "400-3", "태그를 찾을 수 없습니다."),
+    INVALID_PARAMETER_ERROR(BAD_REQUEST.value(), "400-4", "유효하지 않은 파라미터입니다."),
+    DATA_FETCH_ERROR(INTERNAL_SERVER_ERROR.value(), "500-4", "데이터를 가져오는데 실패하였습니다.");
 
     private final Integer statusCode;
     private final String errorCode;

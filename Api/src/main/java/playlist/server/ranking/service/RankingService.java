@@ -1,10 +1,14 @@
 package playlist.server.ranking.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import playlist.server.domain.domains.ranking.domain.RankingInfo;
 import playlist.server.domain.domains.ranking.domain.RankingType;
 import playlist.server.mainpagerankingInfo.vo.MainPageRankingInfoVo;
-import lombok.RequiredArgsConstructor;
+import playlist.server.domain.domains.ranking.domain.RankingInfo;
+import playlist.server.exception.DataFetchException;
+import playlist.server.exception.InvalidParameterException;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -13,30 +17,25 @@ public class RankingService {
     private final RankingLikeService rankingLikeService;
     private final RankingViewService rankingViewService;
 
-    public MainPageRankingInfoVo getRanking(String rankingType, String type, String boardId) {
+    public MainPageRankingInfoVo getRanking(RankingType rankingType, String type, List<RankingInfo> rankingInfoList) {
         try {
-            RankingInfo rankingInfo;
-            if ("daily".equalsIgnoreCase(rankingType)) {
-                rankingInfo = RankingInfo.DAILY;
-            } else if ("weekly".equalsIgnoreCase(rankingType)) {
-                rankingInfo = RankingInfo.WEEKLY;
-            } else if ("monthly".equalsIgnoreCase(rankingType)) {
-                rankingInfo = RankingInfo.MONTHLY;
-            } else {
-                throw new IllegalArgumentException("유효하지 않은 랭킹 타입");
-            }
+            String rankingInfoKey = rankingType.getCountsKey();
 
-            if ("like".equals(type)) {
-                rankingLikeService.incrementLikes(rankingType, boardId);
-            } else if ("view".equals(type)) {
-                rankingViewService.incrementViews(rankingType, boardId);
-            } else {
-                throw new IllegalArgumentException("유효하지 않은 파라미터");
-            }
 
-            return MainPageRankingInfoVo.from(rankingInfo, RankingType.valueOf(rankingType.toUpperCase()));
+            if (RankingType.LIKE.equals(rankingType) && "like".equals(type)) {
+                List<RankingInfo> likeRankingInfoList = rankingLikeService.getLikeRankingInfoList(); // 랭킹 정보를 가져오는 메서드 호출
+                rankingLikeService.incrementLikes(rankingInfoKey, boardId);
+                return MainPageRankingInfoVo.from(null, rankingType, likeRankingInfoList);
+            } else if (RankingType.VIEW.equals(rankingType) && "view".equals(type)) {
+                List<RankingInfo> viewRankingInfoList = rankingViewService.getViewRankingInfoList(); // 랭킹 정보를 가져오는 메서드 호출
+                rankingViewService.incrementViews(rankingInfoKey, boardId);
+                return MainPageRankingInfoVo.from(null, rankingType, viewRankingInfoList);
+            } else {
+                throw new InvalidParameterException();
+            }
+            return MainPageRankingInfoVo.from(null, rankingType, rankingInfoList);
         } catch (Exception e) {
-            throw new RuntimeException("데이터 가져오는거 실패");
+            throw new DataFetchException();
         }
     }
 }
